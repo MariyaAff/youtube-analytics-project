@@ -24,6 +24,20 @@ class Channel:
         self.count_video = count_video
         self.see_all = see_all
 
+    def __str__(self):
+        return f'{self.channel_name} {self.channel_url}'
+
+    def __add__(self, other):
+        return moscowpython + highload
+
+    def __sub__(self, other):
+        return moscowpython - highload
+
+    def __gt__(self, other):
+        if moscowpython > highload:
+            return moscowpython
+        return None
+
     # def printj(self, dict_to_print: dict) -> None:
     #     """Выводит словарь в json-подобном удобном формате с отступами"""
     #     print(json.dumps(dict_to_print, indent=2, ensure_ascii=False))
@@ -46,3 +60,7 @@ class Channel:
         channel = self.youtube.channels().list(id=self.channel_id, part='snippet,statistics').execute()
         dict_channel = json.dumps(channel, indent=2, ensure_ascii=False)
         return dict_channel
+
+
+moscowpython = Channel('UC-OVMPlMA3-YCIeg4z5z23A')
+highload = Channel('UCwHL6WHUarjGfUM_586me8w')
