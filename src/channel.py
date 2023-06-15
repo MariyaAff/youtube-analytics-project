@@ -72,5 +72,3 @@ class Channel:
         dict_channel = json.dumps(channel, indent=2, ensure_ascii=False)
         return dict_channel
 
-ch = Channel('UC-OVMPlMA3-YCIeg4z5z23A')
-ch.get_service()
