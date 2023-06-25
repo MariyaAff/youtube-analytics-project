@@ -41,22 +41,22 @@ class Channel:
 
             'viewCount'))  # общее количество просмотров
 
-    #
-    # def __str__(self):
-    #     return f'{self.title} {self.url}'
 
-    #
-    #
-    # def __add__(self, other):
-    #     return moscowpython + highload
-    #
-    # def __sub__(self, other):
-    #     return moscowpython - highload
-    #
-    # def __gt__(self, other):
-    #     if moscowpython > highload:
-    #         return moscowpython
-    #     return None
+    def __str__(self):
+        return f'{self.title} {self.url}'
+
+
+
+    def __add__(self, other):
+        return moscowpython + highload
+
+    def __sub__(self, other):
+        return moscowpython - highload
+
+    def __gt__(self, other):
+        if moscowpython > highload:
+            return moscowpython
+        return None
 
     @classmethod
     def get_service(cls):
