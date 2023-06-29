@@ -1,5 +1,5 @@
 # import requests
-# import os
+
 import os
 
 from googleapiclient.discovery import build
@@ -11,16 +11,16 @@ import isodate
 class Channel:
     """Класс для ютуб-канала"""
 
-    api_key = "AIzaSyAwYLVF_uNy2TKw7moQokvDbemA02QKq_I"
+    api_key = os.getenv("YT_API_KEY")
     youtube = build('youtube', 'v3', developerKey=api_key)
 
     def __init__(self, channel_id: str) -> None:
         """Экземпляр инициализируется id канала. Дальше все данные будут подтягиваться по API."""
 
-        # self.channel_id: str = channel_id
+        self._channel_id: str = channel_id
         self.channel = self.youtube.channels().list(id=channel_id, part='snippet,statistics').execute()
 
-        self.dict_of_channel = self.get_service().channels().list(id=self.channel_id,
+        self.dict_of_channel = self.get_service().channels().list(id=self._channel_id,
 
                                                                   part='snippet,statistics').execute()  # id канала
 
@@ -28,7 +28,7 @@ class Channel:
 
         self.description = self.dict_of_channel.get('items')[0].get('snippet').get('description')  # описание канала
 
-        self.url = f"https://www.youtube.com/channel/{self.channel_id}"  # ссылка на канал
+        self.url = f"https://www.youtube.com/channel/{self._channel_id}"  # ссылка на канал
 
         self.count_follower = int(self.dict_of_channel.get('items')[0].get('statistics').get(
 
@@ -41,26 +41,27 @@ class Channel:
 
             'viewCount'))  # общее количество просмотров
 
-
     def __str__(self):
         return f'{self.title} {self.url}'
 
+    # def __add__(self, other):
+    #     return moscowpython + highload
 
+    # def __sub__(self, other):
+    #     return moscowpython - highload
+    #
+    # def __gt__(self, other):
+    #     if moscowpython > highload:
+    #         return moscowpython
+    #     return None
 
-    def __add__(self, other):
-        return moscowpython + highload
-
-    def __sub__(self, other):
-        return moscowpython - highload
-
-    def __gt__(self, other):
-        if moscowpython > highload:
-            return moscowpython
-        return None
+    @property
+    def channel_id(self):
+        return self.channel_id
 
     @classmethod
     def get_service(cls):
-        return build('youtube', 'v3', developerKey=os.getenv('AIzaSyAwYLVF_uNy2TKw7moQokvDbemA02QKq_I'))
+        return build('youtube', 'v3', developerKey=os.getenv('YT_API_KEY'))
         # api_key = os.getenv('YT_API_KEY')
         # youtube = build('youtube', 'v3', developerKey=api_key)
         # url = 'https://www.youtube.com/channel/UC-OVMPlMA3-YCIeg4z5z23A'
@@ -69,10 +70,12 @@ class Channel:
         # response = requests.request("GET", url, headers=headers, data=payload)
 
     def to_json(self, response):
-        print(json.dumps(response, indent=2, ensure_ascii=False))
+        j_file = json.dumps(response, indent=2, ensure_ascii=False)
 
     def print_info(self) -> None:
         """Выводит в консоль информацию о канале."""
         # channel = self.youtube.channels().list(id=self.channel_id, part='snippet,statistics').execute()
         # dict_channel = json.dumps(channel, indent=2, ensure_ascii=False)
         print(json.dumps(self.channel, indent=2, ensure_ascii=False))
+
+
